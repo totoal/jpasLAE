@@ -14,39 +14,7 @@ def load_minijpas_jnep(cat_dir, cat_list=['minijpas', 'jnep'],
         flags_mask (bool): If True, drops flagged rows. Default is True.
 
     Returns:
-        If selection is True:
-            pm_flx (ndarray): Array of flux measurements.
-            pm_err (ndarray): Array of flux errors.
-            x_im (ndarray): Array of x-image positions.
-            y_im (ndarray): Array of y-image positions.
-            tile_id (ndarray): Array of tile IDs.
-            number (ndarray): Array of object numbers.
-            starprob (ndarray): Array of star probabilities.
-            spCl (ndarray): Array of spectral classes.
-            photoz (ndarray): Array of photometric redshifts.
-            photoz_chi_best (ndarray): Array of chi-squared values for best-fit photo-z.
-            photoz_odds (ndarray): Array of photo-z odds.
-            RA (ndarray): Array of right ascension coordinates.
-            DEC (ndarray): Array of declination coordinates.
-        If selection is False:
-            pm_flx (ndarray): Array of flux measurements.
-            pm_err (ndarray): Array of flux errors.
-            tile_id (ndarray): Array of tile IDs.
-            pmra_sn (ndarray): Array of signal-to-noise ratios for proper motion in RA.
-            pmdec_sn (ndarray): Array of signal-to-noise ratios for proper motion in DEC.
-            parallax_sn (ndarray): Array of signal-to-noise ratios for parallax.
-            starprob (ndarray): Array of star probabilities.
-            starlhood (ndarray): Array of star likelihoods.
-            spCl (ndarray): Array of spectral classes.
-            zsp (ndarray): Array of spectroscopic redshifts.
-            photoz (ndarray): Array of photometric redshifts.
-            photoz_chi_best (ndarray): Array of chi-squared values for best-fit photo-z.
-            photoz_odds (ndarray): Array of photo-z odds.
-            N_minijpas (int): Number of objects in the 'minijpas' catalog.
-            x_im (ndarray): Array of x-image positions.
-            y_im (ndarray): Array of y-image positions.
-            RA (ndarray): Array of right ascension coordinates.
-            DEC (ndarray): Array of declination coordinates.
+        cat (dict): Dict containing the catalog
     '''
     # If selection, return the valuable items for visual_inspection.py only
     pm_flx = np.array([]).reshape(60, 0)
