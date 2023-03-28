@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from jpasLAEs.zero_point import Zero_point_error
 
-def load_minijpas_jnep(cat_list=['minijpas', 'jnep'], selection=False,
+def load_minijpas_jnep(cat_dir, cat_list=['minijpas', 'jnep'],
                        flags_mask=True):
     '''
     Load data from CSV files and return arrays of relevant data.
@@ -73,7 +73,7 @@ def load_minijpas_jnep(cat_list=['minijpas', 'jnep'], selection=False,
     sum_flags = lambda s: np.sum(np.array(s.split()).astype(float))
 
     for name in cat_list:
-        cat = pd.read_csv(f'csv/{name}.Flambda_aper3_photoz_gaia_3.csv', sep=',', header=1,
+        cat = pd.read_csv(f'{cat_dir}/{name}.Flambda_aper3_photoz_gaia_3.csv', sep=',', header=1,
             converters={0: int, 1: int, 2: split_converter, 3: split_converter, 4: sum_flags,
             5: sum_flags})
 
