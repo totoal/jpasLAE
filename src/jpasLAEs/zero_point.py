@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 
+import pkg_resources
+
 from jpasLAEs.utils import w_central, mag_to_flux
 
 tile_dict = {
@@ -10,6 +12,7 @@ tile_dict = {
     'minijpasAEGIS004': 2470,
     'jnep': 2520
 }
+
 
 def Zero_point_error(ref_tile_id_Arr, catname):
     '''
@@ -33,9 +36,12 @@ def Zero_point_error(ref_tile_id_Arr, catname):
     '''
     # Load Zero Point magnitudes
     try:
-        zpt_cat = pd.read_csv(f'csv/{catname}.TileImage.csv', sep=',', header=1)
+        file_path = pkg_resources.resource_filename(
+            __name__, f'data/{catname}.TileImage.csv')
+        zpt_cat = pd.read_csv(file_path, sep=',', header=1)
     except FileNotFoundError:
-        raise FileNotFoundError(f"CSV file '{catname}.TileImage.csv' not found in the 'csv' directory.")
+        raise FileNotFoundError(
+            f"CSV file '{catname}.TileImage.csv' not found in the 'csv' directory.")
 
     # For each reference TILE_ID, we need an array with the ZPT_ERR for every filter
     if catname == 'jnep':
@@ -47,14 +53,14 @@ def Zero_point_error(ref_tile_id_Arr, catname):
                                 tile_dict['minijpasAEGIS004']])
     else:
         raise ValueError(f"Invalid value for 'catname': '{catname}'")
-    
+
     zpt_err_Arr = np.zeros((len(ref_tileids), 60))
     pm_zpt = np.zeros((60, len(ref_tile_id_Arr)))
     for kkk, ref_tid in enumerate(ref_tileids):
         for fil in range(60):
             where = ((zpt_cat['REF_TILE_ID'] == ref_tid)
                      & (zpt_cat['FILTER_ID'] == fil + 1))
-            
+
             zpt_mag = zpt_cat['ZPT'][where]
             zpt_err = zpt_cat['ERRZPT'][where]
             this_zpt_err = (
@@ -68,5 +74,5 @@ def Zero_point_error(ref_tile_id_Arr, catname):
         if not np.any(mask):
             continue
         pm_zpt[:, mask] = zpt_err_Arr[kkk].reshape(-1, 1)
-    
+
     return pm_zpt

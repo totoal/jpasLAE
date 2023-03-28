@@ -36,7 +36,6 @@ def load_minijpas_jnep(cat_dir, cat_list=['minijpas', 'jnep'],
     DEC = np.array([])
     number = np.array([])
 
-    N_minijpas = 0
     split_converter = lambda s: np.array(s.split()).astype(float)
     sum_flags = lambda s: np.sum(np.array(s.split()).astype(float))
 
