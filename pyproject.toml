@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "jpasLAEs"
-version = "0.4.6"
+version = "0.4.8"
 authors = [
   { name="Alberto Torralba", email="alberto.torralba@uv.es" },
 ]
@@ -22,3 +22,4 @@ classifiers = [
 
 [tool.setuptools.package-data]
 "jpasLAEs.data" = ["*.fits", "*.tab", "*.csv"]
+
