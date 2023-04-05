@@ -20,7 +20,7 @@ w_central = data_tab['wavelength']
 
 
 def mag_to_flux(magnitude, wavelength):
-    """
+    '''
     Convert magnitude to flux.
 
     Args:
@@ -29,12 +29,12 @@ def mag_to_flux(magnitude, wavelength):
 
     Returns:
         float or array: The flux.
-    """
+    '''
     return 10**((magnitude + 48.60) / (-2.5)) * C/wavelength**2 * 1e8
 
 
 def flux_to_mag(flux, wavelength):
-    """
+    '''
     Convert flux to magnitude.
 
     Args:
@@ -43,7 +43,7 @@ def flux_to_mag(flux, wavelength):
 
     Returns:
         float or array: The magnitude.
-    """
+    '''
     log_arg = np.atleast_1d(flux * wavelength**2/C * 1e-8).astype(np.float)
     return -2.5 * np.log10(log_arg) - 48.60
 
@@ -96,19 +96,19 @@ def load_filter_tags(filepath=None):
 
 
 def central_wavelength():
-    """
+    '''
     Load the central wavelengths for all filters.
 
     Returns
     -------
     numpy.ndarray
         Array of central wavelengths.
-    """
+    '''
     return np.array(w_central)
 
 
 def nb_fwhm(nb_ind, give_fwhm=True):
-    """
+    '''
     Returns the FWHM of a filter in tcurves if give_fwhm is True. If it is False, the
     function returns a tuple with (w_central - fwhm/2, w_central + fwhm/2)
 
@@ -124,7 +124,7 @@ def nb_fwhm(nb_ind, give_fwhm=True):
     -------
     float or tuple of float
         FWHM or FWHM range of the specified filter.
-    """
+    '''
     fwhm = data_tab["width"][nb_ind]
     if give_fwhm:
         return fwhm
