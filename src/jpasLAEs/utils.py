@@ -12,6 +12,7 @@ import pkg_resources
 
 
 C = 29979245800  # speed of light in cm/s
+w_lya = 1215.67 # Angstroms
 
 # Load central wavelength data once
 file_path = pkg_resources.resource_filename(__name__, 'data/FILTERs_table.fits')
@@ -45,7 +46,10 @@ def flux_to_mag(flux, wavelength):
         float or array: The magnitude.
     '''
     log_arg = np.atleast_1d(flux * wavelength**2/C * 1e-8).astype(np.float)
-    return -2.5 * np.log10(log_arg) - 48.60
+    mag = np.empty_like(log_arg)
+    mag[log_arg > 0] = -2.5 * np.log10(log_arg) - 48.60
+    mag[log_arg < 0] = np.nan
+    return mag
 
 
 def ang_area(dec0, delta_dec, delta_ra):
@@ -226,6 +230,18 @@ def NB_z(z):
         n_NB = n_NB[0]
 
     return n_NB
+
+def wobs_zlya(w_obs):
+    '''
+    Calculate the redshift of a Lyman-alpha (Lya) emission line based on the observed wavelength.
+
+    Args:
+        w_obs (float): The observed wavelength of the Lya emission line in Angstroms.
+
+    Returns:
+        float: The redshift of the Lya emission line.
+    '''
+    return w_obs / w_lya - 1
 
 
 def z_volume(z_min, z_max, area):
