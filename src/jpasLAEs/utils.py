@@ -47,7 +47,7 @@ def flux_to_mag(flux, wavelength):
     '''
     log_arg = np.atleast_1d(flux * wavelength**2/C * 1e-8).astype(np.float)
     mag = np.empty_like(log_arg)
-    mag[log_arg > 0] = -2.5 * np.log10(log_arg) - 48.60
+    mag[log_arg > 0] = -2.5 * np.log10(log_arg[log_arg > 0]) - 48.60
     mag[log_arg < 0] = np.nan
     return mag
 
