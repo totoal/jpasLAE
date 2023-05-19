@@ -274,3 +274,33 @@ def z_volume(z_min, z_max, area):
     Omega = 2 * np.pi * (1 - np.cos(theta))
     vol = np.trapz(dV, z_x) * Omega
     return vol
+
+def smooth_Image(X_Arr, Y_Arr, Mat, Dx, Dy):
+    '''
+    X_Arr  es el eje X de la matriz
+    Y_Arr  es el eje Y de la matriz
+    Mat es la matrix
+    Dx  es el delta X que quieres usar para la integracion
+    Dx  es el delta Y que quieres usar para la integracion
+    '''
+    new_Mat = np.zeros_like(Mat)
+    for i in range(0, Mat.shape[0]):
+        for j in range(0, Mat.shape[1]):
+            mask_i = (X_Arr > X_Arr[i] - 0.5 * Dx) * (X_Arr <= X_Arr[i] + 0.5 * Dx)
+            mask_j = (Y_Arr > Y_Arr[j] - 0.5 * Dy) * (Y_Arr <= Y_Arr[j] + 0.5 * Dy)
+
+            index_i_Arr = np.arange(0, len(mask_i))
+            index_j_Arr = np.arange(0, len(mask_j))
+
+            i_min = np.amin(index_i_Arr[mask_i])
+            j_min = np.amin(index_j_Arr[mask_j])
+            i_max = np.amax(index_i_Arr[mask_i])
+            j_max = np.amax(index_j_Arr[mask_j])
+
+            new_Mat[i, j] = np.sum(Mat[i_min : i_max + 1, j_min : j_max + 1])
+
+    return new_Mat
+
+
+def bin_centers(bins):
+    return np.array([bins[i : i + 2].sum() * 0.5 for i in range(len(bins) - 1)])
