@@ -1,5 +1,7 @@
 import numpy as np
+
 import csv
+import time
 
 from astropy.table import Table
 from astropy import constants as const
@@ -304,3 +306,9 @@ def smooth_Image(X_Arr, Y_Arr, Mat, Dx, Dy):
 
 def bin_centers(bins):
     return np.array([bins[i : i + 2].sum() * 0.5 for i in range(len(bins) - 1)])
+
+def hms_since_t0(t0):
+    t0 = int(t0)
+    m, s = divmod(int(time.time() - t0), 60)
+    h, m = divmod(m, 60)
+    return h, m, s
