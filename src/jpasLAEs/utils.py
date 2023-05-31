@@ -305,10 +305,39 @@ def smooth_Image(X_Arr, Y_Arr, Mat, Dx, Dy):
 
 
 def bin_centers(bins):
-    return np.array([bins[i : i + 2].sum() * 0.5 for i in range(len(bins) - 1)])
+    '''
+    Calculates the center values of each bin in a given array of bin edges.
 
-def hms_since_t0(t0):
+    Args:
+        bins (array-like): An array or list containing the bin edges.
+
+    Returns:
+        numpy.ndarray: An array containing the center values of each bin.
+
+    Raises:
+        ValueError: If the input array `bins` has less than 2 elements.
+    '''
+    if len(bins) < 2:
+        raise ValueError('Input array `bins` must have at least 2 elements.')
+
+    bin_edges = np.asarray(bins)
+    return 0.5 * (bin_edges[:-1] + bin_edges[1:])
+
+def hms_since_t0(t0, t1=None):
+    '''
+        Calculates the hours, minutes, and seconds elapsed since a given initial time (t0) until the current time (t1).
+
+    Args:
+        t0 (int): The initial time in seconds.
+        t1 (int, optional): The end time in seconds. If not provided, the current time will be used.
+
+    Returns:
+        tuple: A tuple containing the hours, minutes, and seconds elapsed in that order.
+    '''
     t0 = int(t0)
-    m, s = divmod(int(time.time() - t0), 60)
+    if t1 is None:
+        t1 = int(time.time())
+
+    m, s = divmod(t1 - t0, 60)
     h, m = divmod(m, 60)
     return h, m, s
