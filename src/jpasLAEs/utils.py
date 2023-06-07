@@ -320,7 +320,7 @@ def bin_centers(bins):
     if len(bins) < 2:
         raise ValueError('Input array `bins` must have at least 2 elements.')
 
-    bin_edges = np.asarray(bins)
+    bin_edges = np.asarray(bins).astype(float)
     return 0.5 * (bin_edges[:-1] + bin_edges[1:])
 
 def hms_since_t0(t0, t1=None):
