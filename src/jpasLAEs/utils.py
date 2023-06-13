@@ -194,10 +194,15 @@ def z_NB(cont_line_pos):
     This function assumes that the input continuum narrowband indices correspond to adjacent
     narrowbands centered at wavelengths increasing from the blue to the red end of the spectrum.
     '''
+    cont_line_pos = np.atleast_1d(cont_line_pos)
+
     w1 = w_central[cont_line_pos.astype(int)]
     w2 = w_central[cont_line_pos.astype(int) + 1]
 
     w = (w2 - w1) * cont_line_pos % 1 + w1
+
+    if len(w) == 1:
+        w = w[0]
 
     return w / 1215.67 - 1
 
