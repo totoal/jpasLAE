@@ -346,3 +346,25 @@ def hms_since_t0(t0, t1=None):
     m, s = divmod(t1 - t0, 60)
     h, m = divmod(m, 60)
     return h, m, s
+
+
+def smooth_hist(values_Arr, value_min, value_max, step, d_value, weights=None):
+    if value_max <= value_min:
+        raise ValueError('value_max has to be greater than value_min')
+
+    centers = np.arange(value_min + step * 0.5, value_max, step)
+    N_steps = len(centers)
+    out_Arr = np.zeros(N_steps, dtype=float)
+
+    for j in range(N_steps):
+        this_mask = (
+            (values_Arr >= centers[j] - d_value * 0.5)
+            & (values_Arr < centers[j] + d_value * 0.5)
+        )
+
+        if weights is not None:
+            out_Arr[j] = sum(weights[this_mask])
+        else:
+            out_Arr[j] = sum(this_mask)
+
+    return out_Arr, centers
