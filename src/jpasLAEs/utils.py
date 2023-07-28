@@ -368,3 +368,31 @@ def smooth_hist(values_Arr, value_min, value_max, step, d_value, weights=None):
             out_Arr[j] = sum(this_mask)
 
     return out_Arr, centers
+
+
+def rebin_1d_arr(arr, bins, factor):
+    '''
+    Rebins a 1-dimensional array by reducing the number of elements based on a given factor.
+
+    Args:
+        arr (numpy.ndarray): The input 1-dimensional array to be rebinned.
+        factor (int): The factor by which the array will be rebinned. Must be an integer.
+
+    Returns:
+        numpy.ndarray: The rebinned 1-dimensional array.
+
+    Raises:
+        AssertionError: If the factor is not an integer.
+    '''
+    assert type(factor) == int
+
+    new_len = len(arr) // factor
+    new_arr = np.empty(new_len)
+    new_bins = np.empty(new_len + 1)
+
+    for i in range(new_len):
+        new_arr[i] = sum(arr[i * factor : (i + 1) * factor]) / factor
+        new_bins[i] = bins[i * factor]
+    new_bins[i + 1] = bins[-1]
+
+    return new_arr, new_bins
